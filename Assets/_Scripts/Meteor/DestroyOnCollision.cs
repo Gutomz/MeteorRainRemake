@@ -9,7 +9,7 @@ namespace MeteorRain
         private MeteorMaster meteorMaster;
 
         [SerializeField]
-        private float timeToDestroy = 0.8f;
+        private float timeToDestroy = 0.125f;
 
         private void OnEnable()
         {

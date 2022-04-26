@@ -540,6 +540,9 @@ MonoBehaviour:
   - gameObject: {fileID: 57582895080408680, guid: 26e12d9f24b90e34dac2c49bf61b5770,
       type: 3}
     chance: 0.8
+  - gameObject: {fileID: 57582895080408680, guid: bee86a3b0abe485419242d42f7a0dd7c,
+      type: 3}
+    chance: 0.2
 --- !u!114 &218019078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -819,7 +822,7 @@ GameObject:
   - component: {fileID: 395215496}
   - component: {fileID: 395215495}
   - component: {fileID: 395215494}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -4039,7 +4042,7 @@ GameObject:
   - component: {fileID: 1848314789}
   - component: {fileID: 1848314787}
   - component: {fileID: 1848314786}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
