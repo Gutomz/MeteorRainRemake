@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace MeteorRain
@@ -12,11 +13,16 @@ namespace MeteorRain
         [SerializeField]
         private float timeBetweenSpawns = 1f;
 
+        [SerializeField]
+        private Vector2 xBoundaries;
+
         [System.Serializable]
         public class SpawnerObject
         {
             public GameObject gameObject;
-            public float chance;
+
+            [Range(0f, 1f)]
+            public float probability;
         }
 
         [SerializeField]
@@ -50,7 +56,7 @@ namespace MeteorRain
         {
             while(true)
             {
-                GameObject gameObject = Instantiate(getRandomMeteor(), getRandomPosition(), getRandomRotation(), transform);
+                Instantiate(GetRandomMeteor(), GetRandomPosition(), GetRandomRotation(), transform);
                 yield return new WaitForSeconds(timeBetweenSpawns);
             }
         }
@@ -63,25 +69,39 @@ namespace MeteorRain
             }
         }
 
-        private SpawnerObject getRandomSpawnerObject()
+        private SpawnerObject GetRandomSpawnerObject(IEnumerable<SpawnerObject> pool)
         {
-            return spawnerObjects[Random.Range(0, spawnerObjects.Length)];
+            double probabilities = pool.Sum(x => x.probability);
+            double random = Random.Range(0f, 1f) * probabilities;
+
+            double sum = 0;
+            SpawnerObject output = pool.First();
+            foreach (SpawnerObject spawnerObject in pool)
+            {
+                if (random <= (sum += spawnerObject.probability))
+                {
+                    output = spawnerObject;
+                    break;
+                }
+            }
+
+            return output;
         }
 
-        private GameObject getRandomMeteor()
+        private GameObject GetRandomMeteor()
         {
-            SpawnerObject o = getRandomSpawnerObject();
+            SpawnerObject o = GetRandomSpawnerObject(spawnerObjects);
             return o.gameObject;
         }
 
-        private Vector3 getRandomPosition()
+        private Vector3 GetRandomPosition()
         {
             Vector3 position = transform.position;
-            position.x = Random.Range(-11, 12);
+            position.x = Random.Range(xBoundaries.x, xBoundaries.y);
             return position;
         }
 
-        private Quaternion getRandomRotation()
+        private Quaternion GetRandomRotation()
         {
             return Quaternion.identity;
         }

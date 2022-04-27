@@ -536,13 +536,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenSpawns: 0.5
+  xBoundaries: {x: -11, y: 11}
   spawnerObjects:
   - gameObject: {fileID: 57582895080408680, guid: 26e12d9f24b90e34dac2c49bf61b5770,
       type: 3}
-    chance: 0.8
+    probability: 0.7
   - gameObject: {fileID: 57582895080408680, guid: bee86a3b0abe485419242d42f7a0dd7c,
       type: 3}
-    chance: 0.2
+    probability: 0.05
 --- !u!114 &218019078
 MonoBehaviour:
   m_ObjectHideFlags: 0
