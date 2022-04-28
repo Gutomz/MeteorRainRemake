@@ -16,15 +16,6 @@ namespace MeteorRain
         [SerializeField]
         private Vector2 xBoundaries;
 
-        [System.Serializable]
-        public class SpawnerObject
-        {
-            public GameObject gameObject;
-
-            [Range(0f, 1f)]
-            public float probability;
-        }
-
         [SerializeField]
         private SpawnerObject[] spawnerObjects;
 
@@ -34,12 +25,16 @@ namespace MeteorRain
 
             spawnerMaster.StartSpawnerEvent += OnStartSpawner;
             spawnerMaster.StopSpawnerEvent += OnStopSpawner;
+            spawnerMaster.ChangeTimeBetweenSpawnsEvent += OnChangeTimeBetweenSpawns;
+            spawnerMaster.UpdateSpawnerObjectsEvent += OnUpdateSpawnerObjects;
         }
 
         private void OnDisable()
         {
             spawnerMaster.StartSpawnerEvent -= OnStartSpawner;
             spawnerMaster.StopSpawnerEvent -= OnStopSpawner;
+            spawnerMaster.ChangeTimeBetweenSpawnsEvent -= OnChangeTimeBetweenSpawns;
+            spawnerMaster.UpdateSpawnerObjectsEvent -= OnUpdateSpawnerObjects;
         }
 
         private void SetInitialReferences()
@@ -67,6 +62,16 @@ namespace MeteorRain
             {
                 StopCoroutine(mSpawnerCoroutine);
             }
+        }
+
+        private void OnChangeTimeBetweenSpawns(float newTime)
+        {
+            timeBetweenSpawns = newTime;
+        }
+
+        private void OnUpdateSpawnerObjects(SpawnerObject[] newObjects)
+        {
+            spawnerObjects = newObjects;
         }
 
         private SpawnerObject GetRandomSpawnerObject(IEnumerable<SpawnerObject> pool)

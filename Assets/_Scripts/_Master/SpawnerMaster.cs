@@ -12,6 +12,12 @@ namespace MeteorRain
         public event GenericSpawnerEventHandler StartSpawnerEvent;
         public event GenericSpawnerEventHandler StopSpawnerEvent;
 
+        public delegate void ChangeTimeBetweenSpawnsEventHandler(float newTime);
+        public event ChangeTimeBetweenSpawnsEventHandler ChangeTimeBetweenSpawnsEvent;
+
+        public delegate void SpawnerObjectsEventHandler(SpawnerObject[] spawnerObjects);
+        public event SpawnerObjectsEventHandler UpdateSpawnerObjectsEvent;
+
         private void OnEnable()
         {
             SetInitialReferences();
@@ -43,6 +49,16 @@ namespace MeteorRain
             {
                 StopSpawnerEvent();
             }
+        }
+
+        public void CallEventChangeTimeBetweenSpawns(float newTime)
+        {
+            ChangeTimeBetweenSpawnsEvent?.Invoke(newTime);
+        }
+
+        public void CallEventUpdateSpawnerObjects(SpawnerObject[] spawnerObjects)
+        {
+            UpdateSpawnerObjectsEvent?.Invoke(spawnerObjects);
         }
     }
 }

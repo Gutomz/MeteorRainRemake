@@ -3142,6 +3142,9 @@ GameObject:
   - component: {fileID: 1521673828}
   - component: {fileID: 1521673827}
   - component: {fileID: 1521673829}
+  - component: {fileID: 1521673832}
+  - component: {fileID: 1521673831}
+  - component: {fileID: 1521673830}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -3185,6 +3188,96 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d6b25056cdd2ce4e88f501b669737ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1521673830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521673826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b852f745614359b4db56dfddbbad843c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levels:
+  - reachPoint: 0
+    timeBetweenSpawns: 1
+    objectsToSpawn:
+    - gameObject: {fileID: 57582895080408680, guid: 26e12d9f24b90e34dac2c49bf61b5770,
+        type: 3}
+      probability: 1
+  - reachPoint: 25
+    timeBetweenSpawns: 0.8
+    objectsToSpawn:
+    - gameObject: {fileID: 57582895080408680, guid: 26e12d9f24b90e34dac2c49bf61b5770,
+        type: 3}
+      probability: 0.9
+    - gameObject: {fileID: 57582895080408680, guid: bee86a3b0abe485419242d42f7a0dd7c,
+        type: 3}
+      probability: 0.1
+  - reachPoint: 50
+    timeBetweenSpawns: 0.6
+    objectsToSpawn:
+    - gameObject: {fileID: 57582895080408680, guid: 26e12d9f24b90e34dac2c49bf61b5770,
+        type: 3}
+      probability: 0.9
+    - gameObject: {fileID: 57582895080408680, guid: bee86a3b0abe485419242d42f7a0dd7c,
+        type: 3}
+      probability: 0.05
+  - reachPoint: 100
+    timeBetweenSpawns: 0.4
+    objectsToSpawn:
+    - gameObject: {fileID: 57582895080408680, guid: 26e12d9f24b90e34dac2c49bf61b5770,
+        type: 3}
+      probability: 0.9
+    - gameObject: {fileID: 57582895080408680, guid: bee86a3b0abe485419242d42f7a0dd7c,
+        type: 3}
+      probability: 0.05
+  - reachPoint: 200
+    timeBetweenSpawns: 0.3
+    objectsToSpawn:
+    - gameObject: {fileID: 57582895080408680, guid: 26e12d9f24b90e34dac2c49bf61b5770,
+        type: 3}
+      probability: 0.9
+    - gameObject: {fileID: 57582895080408680, guid: bee86a3b0abe485419242d42f7a0dd7c,
+        type: 3}
+      probability: 0.05
+  - reachPoint: 300
+    timeBetweenSpawns: 0.25
+    objectsToSpawn:
+    - gameObject: {fileID: 57582895080408680, guid: 26e12d9f24b90e34dac2c49bf61b5770,
+        type: 3}
+      probability: 0.9
+    - gameObject: {fileID: 57582895080408680, guid: bee86a3b0abe485419242d42f7a0dd7c,
+        type: 3}
+      probability: 0.05
+--- !u!114 &1521673831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521673826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0231f01a495080f448b7307349c913e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreMaster: {fileID: 1858195149}
+  spawnerMaster: {fileID: 218019078}
+--- !u!114 &1521673832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521673826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489db20064a992f4daab8dda4dc99738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1621562762
