@@ -12,52 +12,67 @@ namespace MeteorRain
         [Header("Health")]
         [SerializeField]
         private int initialHealth;
-
         [SerializeField]
         private int minHealth;
-
         [SerializeField]
         private int maxHealth;
-
         private int currentHealth;
 
         [Header("Speed")]
         [SerializeField]
         private float initialSpeed;
-
         [SerializeField]
         private float minSpeed;
-
         [SerializeField]
         private float maxSpeed;
-
         private float currentSpeed;
+
+        [Header("Mana")]
+        [SerializeField]
+        private float initialMana;
+        [SerializeField]
+        private float minMana;
+        [SerializeField]
+        private float maxMana;
+        private float currentMana;
 
         public int CurrentHealth { get { return currentHealth; } }
         public float CurrentSpeed { get { return currentSpeed; } }
+        public float CurrentMana { get { return currentMana; } }
 
         private void OnEnable()
         {
             SetInitialReferences();
 
+            gameManagerMaster.StartGameEvent += OnGameStart;
             playerMaster.PlayerHealEvent += OnHeal;
             playerMaster.PlayerTakeDamageEvent += OnTakeDamage;
             playerMaster.PlayerChangeSpeedEvent += OnChangeSpeed;
-            gameManagerMaster.StartGameEvent += OnGameStart;
+            playerMaster.PlayerIncreaseManaEvent += OnIncreaseMana;
+            playerMaster.PlayerDecreaseManaEvent += OnDecreaseMana;
         }
 
         private void OnDisable()
         {
+            gameManagerMaster.StartGameEvent -= OnGameStart;
             playerMaster.PlayerHealEvent -= OnHeal;
             playerMaster.PlayerTakeDamageEvent -= OnTakeDamage;
             playerMaster.PlayerChangeSpeedEvent -= OnChangeSpeed;
-            gameManagerMaster.StartGameEvent -= OnGameStart;
+            playerMaster.PlayerIncreaseManaEvent -= OnIncreaseMana;
+            playerMaster.PlayerDecreaseManaEvent -= OnDecreaseMana;
         }
 
         private void SetInitialReferences()
         {
             gameManagerMaster = GameManagerMaster.Instance;
             playerMaster = GetComponent<PlayerMaster>();
+        }
+
+        private void OnGameStart()
+        {
+            ResetHealth();
+            ResetSpeed();
+            ResetMana();
         }
 
         private void OnHeal(int amount)
@@ -101,6 +116,34 @@ namespace MeteorRain
             }
         }
 
+        private void OnIncreaseMana(float amount)
+        {
+            if (currentMana + amount > maxMana)
+            {
+                currentMana = maxMana;
+            }
+            else
+            {
+                currentMana += amount;
+            }
+
+            playerMaster.CallEventPlayerUpdateMana(currentMana);
+        }
+
+        private void OnDecreaseMana(float amount)
+        {
+            if (currentMana - amount <= minMana)
+            {
+                currentMana = minMana;
+            }
+            else
+            {
+                currentMana -= amount;
+            }
+
+            playerMaster.CallEventPlayerUpdateMana(currentMana);
+        }
+
         public void ResetHealth()
         {
             if (currentHealth < initialHealth)
@@ -117,10 +160,16 @@ namespace MeteorRain
             playerMaster.CallEventPlayerChangeSpeed(initialSpeed);
         }
 
-        private void OnGameStart()
+        public void ResetMana()
         {
-            ResetHealth();
-            ResetSpeed();
+            if (currentMana < initialMana)
+            {
+                playerMaster.CallEventPlayerIncreaseMana(initialMana - currentMana);
+            }
+            else if (currentMana > initialMana)
+            {
+                playerMaster.CallEventPlayerDecreaseMana(currentMana - initialMana);
+            }
         }
     }
 }

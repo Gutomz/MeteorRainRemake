@@ -20,6 +20,11 @@ namespace MeteorRain
         public delegate void PlayerSpeedEventHandler(float newSpeed);
         public event PlayerSpeedEventHandler PlayerChangeSpeedEvent;
 
+        public delegate void PlayerManaEventHandler(float value);
+        public event PlayerSpeedEventHandler PlayerUpdateManaEvent;
+        public event PlayerSpeedEventHandler PlayerIncreaseManaEvent;
+        public event PlayerSpeedEventHandler PlayerDecreaseManaEvent;
+
         private void OnEnable()
         {
             gameManagerMaster = GameManagerMaster.Instance;
@@ -70,6 +75,30 @@ namespace MeteorRain
             if (gameManagerMaster.IsGameRunning)
             {
                 PlayerChangeSpeedEvent?.Invoke(newSpeed);
+            }
+        }
+
+        public void CallEventPlayerUpdateMana(float newMana)
+        {
+            if (gameManagerMaster.IsGameRunning)
+            {
+                PlayerUpdateManaEvent?.Invoke(newMana);
+            }
+        }
+
+        public void CallEventPlayerIncreaseMana(float amount)
+        {
+            if (gameManagerMaster.IsGameRunning)
+            {
+                PlayerIncreaseManaEvent?.Invoke(amount);
+            }
+        }
+
+        public void CallEventPlayerDecreaseMana(float amount)
+        {
+            if (gameManagerMaster.IsGameRunning)
+            {
+                PlayerDecreaseManaEvent?.Invoke(amount);
             }
         }
     }

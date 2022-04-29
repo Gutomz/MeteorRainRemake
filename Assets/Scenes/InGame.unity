@@ -4290,6 +4290,9 @@ MonoBehaviour:
   initialSpeed: 200
   minSpeed: 100
   maxSpeed: 400
+  initialMana: 0
+  minMana: 0
+  maxMana: 100
 --- !u!1 &1858195147
 GameObject:
   m_ObjectHideFlags: 0
