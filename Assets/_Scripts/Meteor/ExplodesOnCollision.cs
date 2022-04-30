@@ -26,6 +26,9 @@ namespace MeteorRain
         [SerializeField]
         private string playerTag = "Player";
 
+        [SerializeField]
+        private string shieldTag = "Shield";
+
         private bool isCharging = false;
 
         private void OnEnable()
@@ -47,8 +50,14 @@ namespace MeteorRain
 
         private void OnCollide(Collision collision)
         {
-            if (!isCharging && !collision.gameObject.CompareTag(tag))
+            if (!isCharging && !collision.collider.CompareTag(tag))
             {
+                if (collision.collider.CompareTag(shieldTag))
+                {
+                    DestroyMeteor();
+                    return; 
+                }
+
                 isCharging = true;
                 tag = "MeteorCharging";
                 StartCoroutine(StartCharging());
@@ -63,8 +72,6 @@ namespace MeteorRain
 
         private void Explode(Vector3 explosionPoint)
         {
-            meteorMaster.CallEventOnDestroyMeteor();
-
             Collider[] colliders = Physics.OverlapSphere(explosionPoint, blastRadius, explosionLayers);
             foreach (Collider collider in colliders)
             {
@@ -75,6 +82,12 @@ namespace MeteorRain
                 }
             }
 
+            DestroyMeteor();
+        }
+
+        private void DestroyMeteor()
+        {
+            meteorMaster.CallEventOnDestroyMeteor();
             Destroy(gameObject, timeToDestroy);
         }
     }

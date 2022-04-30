@@ -19,7 +19,7 @@ namespace MeteorRain
             get {
                 if (gameManagerMaster == null) return false;
 
-                return gameManagerMaster.IsGameStarted;
+                return gameManagerMaster.IsGameRunning;
             }
         }
 

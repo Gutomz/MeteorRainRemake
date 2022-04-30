@@ -8,6 +8,7 @@ namespace MeteorRain
     {
         private GameManagerMaster gameManagerMaster;
 
+        public delegate void PlayerGeneralEventHandler();
         public delegate void PlayerMovementEventHandler();
         public event PlayerMovementEventHandler MovePlayerLeftEvent;
         public event PlayerMovementEventHandler MovePlayerRightEvent;
@@ -24,6 +25,10 @@ namespace MeteorRain
         public event PlayerSpeedEventHandler PlayerUpdateManaEvent;
         public event PlayerSpeedEventHandler PlayerIncreaseManaEvent;
         public event PlayerSpeedEventHandler PlayerDecreaseManaEvent;
+
+        public delegate void ApplyShieldEventHandler(float duration);
+        public event ApplyShieldEventHandler PlayerApplyShieldEvent;
+        public event PlayerGeneralEventHandler PlayerStopShieldEvent;
 
         private void OnEnable()
         {
@@ -99,6 +104,22 @@ namespace MeteorRain
             if (gameManagerMaster.IsGameRunning)
             {
                 PlayerDecreaseManaEvent?.Invoke(amount);
+            }
+        }
+
+        public void CallEventPlayerApplyShield(float duration)
+        {
+            if (gameManagerMaster.IsGameRunning)
+            {
+                PlayerApplyShieldEvent?.Invoke(duration);
+            }
+        }
+
+        public void CallEventPlayerStopShield()
+        {
+            if (gameManagerMaster.IsGameRunning)
+            {
+                PlayerStopShieldEvent?.Invoke();
             }
         }
     }

@@ -33,7 +33,7 @@ namespace MeteorRain
 
         private void OnCollide(Collision collision)
         {
-            if (collision.gameObject.tag.Equals(playerTag))
+            if (collision.collider.CompareTag(playerTag))
             {
                 PlayerMaster playerMaster = collision.gameObject.GetComponent<PlayerMaster>();
                 if (playerMaster != null)

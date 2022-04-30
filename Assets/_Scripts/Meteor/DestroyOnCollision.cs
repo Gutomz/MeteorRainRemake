@@ -30,7 +30,7 @@ namespace MeteorRain
 
         private void OnCollide(Collision collision)
         {
-            if (!collision.gameObject.tag.Equals(tag)) {    
+            if (!collision.collider.CompareTag(tag)) {    
                 meteorMaster.CallEventOnDestroyMeteor();
                 Destroy(gameObject, timeToDestroy);
             }
