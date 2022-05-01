@@ -91,7 +91,7 @@ namespace MeteorRain
             do
             {
                 countDownTextUI.SetText(timeout.ToString());
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSecondsRealtime(1);
                 timeout -= 1;
             } while (timeout > 0);
             countDownTextUI.SetText(countDownDoneText);

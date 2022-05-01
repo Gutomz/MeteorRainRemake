@@ -25,6 +25,8 @@ namespace MeteorRain
         private float minSpeed;
         [SerializeField]
         private float maxSpeed;
+        [SerializeField]
+        private float slowSpeedScale;
         private float currentSpeed;
 
         [Header("Mana")]
@@ -45,6 +47,8 @@ namespace MeteorRain
             SetInitialReferences();
 
             gameManagerMaster.StartGameEvent += OnGameStart;
+            gameManagerMaster.StartSlowTimeEvent += OnStartSlowTime;
+            gameManagerMaster.StopSlowTimeEvent += OnStopSlowTime;
             playerMaster.PlayerHealEvent += OnHeal;
             playerMaster.PlayerTakeDamageEvent += OnTakeDamage;
             playerMaster.PlayerChangeSpeedEvent += OnChangeSpeed;
@@ -55,6 +59,8 @@ namespace MeteorRain
         private void OnDisable()
         {
             gameManagerMaster.StartGameEvent -= OnGameStart;
+            gameManagerMaster.StartSlowTimeEvent -= OnStartSlowTime;
+            gameManagerMaster.StopSlowTimeEvent -= OnStopSlowTime;
             playerMaster.PlayerHealEvent -= OnHeal;
             playerMaster.PlayerTakeDamageEvent -= OnTakeDamage;
             playerMaster.PlayerChangeSpeedEvent -= OnChangeSpeed;
@@ -73,6 +79,16 @@ namespace MeteorRain
             ResetHealth();
             ResetSpeed();
             ResetMana();
+        }
+
+        private void OnStartSlowTime(float duration, float slowPercentage)
+        {
+            playerMaster.CallEventPlayerChangeSpeed(currentSpeed * (1 + slowPercentage) * slowSpeedScale);
+        }
+
+        private void OnStopSlowTime()
+        {
+            ResetSpeed();
         }
 
         private void OnHeal(int amount)

@@ -3677,6 +3677,7 @@ GameObject:
   - component: {fileID: 1521673827}
   - component: {fileID: 1521673829}
   - component: {fileID: 1521673832}
+  - component: {fileID: 1521673833}
   - component: {fileID: 1521673831}
   - component: {fileID: 1521673830}
   m_Layer: 0
@@ -3812,6 +3813,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 489db20064a992f4daab8dda4dc99738, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1521673833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521673826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d44f37c85aa0654ba25e3bc4718f5ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1588228618
@@ -3962,7 +3975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMaster: {fileID: 1848314788}
   effect: {fileID: 11400000, guid: d68917e4c0db80644b78ab3ce61ea18f, type: 2}
-  activateKey: 258
+  activateKey: 50
 --- !u!1 &1621562762
 GameObject:
   m_ObjectHideFlags: 0
@@ -5239,13 +5252,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialHealth: 5
   minHealth: 0
-  maxHealth: 5
+  maxHealth: 100
   initialSpeed: 200
   minSpeed: 100
-  maxSpeed: 400
-  initialMana: 50
+  maxSpeed: 10000
+  slowSpeedScale: 15
+  initialMana: 200
   minMana: 0
-  maxMana: 100
+  maxMana: 500
 --- !u!114 &1848314790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5405,6 +5419,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1947767578}
+  - component: {fileID: 1947767582}
   - component: {fileID: 1947767581}
   - component: {fileID: 1947767580}
   - component: {fileID: 1947767579}
@@ -5478,7 +5493,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1947767580}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1947767582}
+        m_TargetAssemblyTypeName: MeteorRain.PowerUp, Assembly-CSharp
+        m_MethodName: Activate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1947767580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5517,6 +5544,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947767577}
   m_CullTransparentMesh: 1
+--- !u!114 &1947767582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947767577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe06fbba76d74f42b1c35cce8465e1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMaster: {fileID: 1848314788}
+  effect: {fileID: 11400000, guid: d3dcc0af170839e4db1906d4d2fe1950, type: 2}
+  activateKey: 51
 --- !u!1 &2009297129
 GameObject:
   m_ObjectHideFlags: 0

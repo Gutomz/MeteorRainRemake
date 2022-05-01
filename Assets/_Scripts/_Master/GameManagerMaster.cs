@@ -21,6 +21,10 @@ namespace MeteorRain
         public event GeneralEventHandler TogglePauseGameEvent;
         public event GeneralEventHandler RestartGameEvent;
 
+        public delegate void SlowTimeEventHandler(float duration, float slowPercentage);
+        public event SlowTimeEventHandler StartSlowTimeEvent;
+        public event GeneralEventHandler StopSlowTimeEvent;
+
         public bool IsGameStarted { get { return isGameStarted; } }
         private bool isGameStarted = false;
 
@@ -54,6 +58,22 @@ namespace MeteorRain
             {
                 isGamePaused = !isGamePaused;
                 TogglePauseGameEvent?.Invoke();
+            }
+        }
+
+        public void CallEventStartSlowTime(float duration, float slowPercentage)
+        {
+            if (IsGameRunning)
+            {
+                StartSlowTimeEvent?.Invoke(duration, slowPercentage);
+            }
+        }
+
+        public void CallEventStopSlowTime()
+        {
+            if (IsGameRunning)
+            {
+                StopSlowTimeEvent?.Invoke();
             }
         }
 
