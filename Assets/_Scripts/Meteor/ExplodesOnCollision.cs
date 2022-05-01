@@ -87,8 +87,7 @@ namespace MeteorRain
 
         private void DestroyMeteor()
         {
-            meteorMaster.CallEventOnDestroyMeteor();
-            Destroy(gameObject, timeToDestroy);
+            meteorMaster.CallEventDestroyMeteor(timeToDestroy);
         }
     }
 }

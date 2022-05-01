@@ -6,19 +6,21 @@ namespace MeteorRain
 {
     public class MeteorMaster : MonoBehaviour
     {
-        public delegate void MeteorGeneralEventHandler();
         public delegate void MeteorCollisionEventHandler(Collision collision);
         public event MeteorCollisionEventHandler MeteorCollideEvent;
-        public event MeteorGeneralEventHandler OnDestroyMeteorEvent;
+
+        public delegate void MeteorGeneralEventHandler();
+        public event MeteorGeneralEventHandler DestroyMeteorEvent;
 
         public void CallEventMeteorCollide(Collision collision)
         {
             MeteorCollideEvent?.Invoke(collision);
         }
 
-        public void CallEventOnDestroyMeteor()
+        public void CallEventDestroyMeteor(float timeout)
         {
-            OnDestroyMeteorEvent?.Invoke();
+            DestroyMeteorEvent?.Invoke();
+            Destroy(gameObject, timeout);
         }
 
         private void OnCollisionEnter(Collision collision)

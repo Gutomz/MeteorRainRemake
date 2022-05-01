@@ -18,6 +18,9 @@ namespace MeteorRain
         public delegate void SpawnerObjectsEventHandler(SpawnerObject[] spawnerObjects);
         public event SpawnerObjectsEventHandler UpdateSpawnerObjectsEvent;
 
+        public delegate void DestroyAllEventHandler(float offsetTime);
+        public event DestroyAllEventHandler DestroyAllEvent;
+
         private void OnEnable()
         {
             SetInitialReferences();
@@ -59,6 +62,11 @@ namespace MeteorRain
         public void CallEventUpdateSpawnerObjects(SpawnerObject[] spawnerObjects)
         {
             UpdateSpawnerObjectsEvent?.Invoke(spawnerObjects);
+        }
+
+        public void CallEventDestroyAll(float offsetTime)
+        {
+            DestroyAllEvent?.Invoke(offsetTime);
         }
     }
 }

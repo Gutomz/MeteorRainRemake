@@ -27,6 +27,7 @@ namespace MeteorRain
             spawnerMaster.StopSpawnerEvent += OnStopSpawner;
             spawnerMaster.ChangeTimeBetweenSpawnsEvent += OnChangeTimeBetweenSpawns;
             spawnerMaster.UpdateSpawnerObjectsEvent += OnUpdateSpawnerObjects;
+            spawnerMaster.DestroyAllEvent += OnDestroyAll;
         }
 
         private void OnDisable()
@@ -35,6 +36,7 @@ namespace MeteorRain
             spawnerMaster.StopSpawnerEvent -= OnStopSpawner;
             spawnerMaster.ChangeTimeBetweenSpawnsEvent -= OnChangeTimeBetweenSpawns;
             spawnerMaster.UpdateSpawnerObjectsEvent -= OnUpdateSpawnerObjects;
+            spawnerMaster.DestroyAllEvent -= OnDestroyAll;
         }
 
         private void SetInitialReferences()
@@ -72,6 +74,26 @@ namespace MeteorRain
         private void OnUpdateSpawnerObjects(SpawnerObject[] newObjects)
         {
             spawnerObjects = newObjects;
+        }
+
+        private void OnDestroyAll(float offsetTime)
+        {
+            StartCoroutine(DestroyAll(offsetTime));
+        }
+
+        private IEnumerator DestroyAll(float offsetTime)
+        {
+            spawnerMaster.CallEventStopSpawner();
+            MeteorMaster[] meteors = GetComponentsInChildren<MeteorMaster>();
+
+            foreach (MeteorMaster meteor in meteors)
+            {
+                meteor.CallEventDestroyMeteor(0);
+            }
+
+            yield return new WaitForSeconds(offsetTime);
+
+            spawnerMaster.CallEventStartSpawner();
         }
 
         private SpawnerObject GetRandomSpawnerObject(IEnumerable<SpawnerObject> pool)
