@@ -8,7 +8,6 @@ namespace MeteorRain
     {
         private GameManagerMaster gameManagerMaster;
         private ScoreMaster scoreMaster;
-        private Coroutine mScoringCoroutine;
 
         [SerializeField]
         private int initialEarnScore = 1;
@@ -17,6 +16,10 @@ namespace MeteorRain
         [SerializeField]
         private float initialTimeBetweenScore = 1;
         private float currentTimeBetweenScore;
+
+        private bool isScoring = false;
+        private float currentTime;
+        private float nextScoreTime;
 
         private void OnEnable()
         {
@@ -45,27 +48,31 @@ namespace MeteorRain
             scoreMaster = GetComponent<ScoreMaster>();
         }
 
+        private void Update()
+        {
+            if (gameManagerMaster.IsGameRunning)
+            {
+                if (isScoring)
+                {
+                    currentTime += Time.unscaledDeltaTime;
+
+                    if (currentTime >= currentTimeBetweenScore)
+                    {
+                        scoreMaster.CallEventChangeScore(scoreMaster.CurrentScore + currentEarnScore);
+                        currentTime = 0;
+                    }
+                }
+            }
+        }
+
         private void OnStartScoring()
         {
-            OnStopScoring();
-            mScoringCoroutine = StartCoroutine(StartScoring());
+            isScoring = true;
         }
 
         private void OnStopScoring()
         {
-            if (mScoringCoroutine != null)
-            {
-                StopCoroutine(mScoringCoroutine);
-            }
-        }
-
-        IEnumerator StartScoring()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(currentTimeBetweenScore);
-                scoreMaster.CallEventChangeScore(scoreMaster.CurrentScore + currentEarnScore);
-            }
+            isScoring = false;
         }
     }
 }

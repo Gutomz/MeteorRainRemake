@@ -7,17 +7,20 @@ namespace MeteorRain
 {
     public class Spawner : MonoBehaviour
     {
+        private GameManagerMaster gameManagerMaster;
         private SpawnerMaster spawnerMaster;
-        private Coroutine mSpawnerCoroutine;
 
         [SerializeField]
         private float timeBetweenSpawns = 1f;
+        private float currentSpawnTime;
 
         [SerializeField]
         private Vector2 xBoundaries;
 
         [SerializeField]
         private SpawnerObject[] spawnerObjects;
+
+        private bool isSpawning = false;
 
         private void OnEnable()
         {
@@ -41,29 +44,35 @@ namespace MeteorRain
 
         private void SetInitialReferences()
         {
+            gameManagerMaster = GameManagerMaster.Instance;
             spawnerMaster = GetComponent<SpawnerMaster>();
+        }
+
+        private void Update()
+        {
+            if (gameManagerMaster.IsGameRunning)
+            {
+                if (isSpawning)
+                {
+                    currentSpawnTime += Time.deltaTime;
+
+                    if (currentSpawnTime >= timeBetweenSpawns)
+                    {
+                        Instantiate(GetRandomMeteor(), GetRandomPosition(), GetRandomRotation(), transform);
+                        currentSpawnTime = 0;
+                    }
+                }
+            }
         }
 
         private void OnStartSpawner()
         {
-            mSpawnerCoroutine = StartCoroutine(StartSpawner());
-        }
-
-        IEnumerator StartSpawner()
-        {
-            while(true)
-            {
-                Instantiate(GetRandomMeteor(), GetRandomPosition(), GetRandomRotation(), transform);
-                yield return new WaitForSeconds(timeBetweenSpawns);
-            }
+            isSpawning = true;
         }
 
         private void OnStopSpawner()
         {
-            if (mSpawnerCoroutine != null)
-            {
-                StopCoroutine(mSpawnerCoroutine);
-            }
+            isSpawning = false;
         }
 
         private void OnChangeTimeBetweenSpawns(float newTime)
@@ -91,7 +100,7 @@ namespace MeteorRain
                 meteor.CallEventDestroyMeteor(0);
             }
 
-            yield return new WaitForSeconds(offsetTime);
+            yield return new WaitForSecondsRealtime(offsetTime);
 
             spawnerMaster.CallEventStartSpawner();
         }

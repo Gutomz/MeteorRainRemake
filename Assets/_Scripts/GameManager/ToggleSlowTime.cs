@@ -9,7 +9,12 @@ namespace MeteorRain
         private GameManagerMaster gameManagerMaster;
 
         private bool isTimeSlower = false;
-        private Coroutine slowTimeCoroutine;
+
+        private float lastTimeScale;
+        private float lastFixedDeltaTime;
+
+        private float currentTime;
+        private float endTime;
 
         private void OnEnable()
         {
@@ -30,30 +35,47 @@ namespace MeteorRain
             gameManagerMaster = GameManagerMaster.Instance;
         }
 
+        private void Update()
+        {
+            if (gameManagerMaster.IsGameRunning)
+            {
+                if (isTimeSlower)
+                {
+                    currentTime += Time.unscaledDeltaTime;
+
+                    if (currentTime >= endTime)
+                    {
+                        isTimeSlower = false;
+                        gameManagerMaster.CallEventStopSlowTime();
+                    }
+                }
+            }
+        }
+
         private void OnStartSlowTime(float duration, float slowPercentage)
         {
             if (!isTimeSlower)
             {
-                isTimeSlower = true;
-                slowTimeCoroutine = StartCoroutine(StartSlowTime(duration, slowPercentage));
+                StartSlowTime(duration, slowPercentage);
             }
         }
 
         private void OnStopSlowTime()
         {
-            if (slowTimeCoroutine != null)
-                StopCoroutine(slowTimeCoroutine);
             isTimeSlower = false;
-            Time.timeScale = 1;
-            Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            Time.timeScale = lastTimeScale;
+            Time.fixedDeltaTime = lastFixedDeltaTime;
         }
 
-        private IEnumerator StartSlowTime(float duration, float slowPercentage)
+        private void StartSlowTime(float duration, float slowPercentage)
         {
+            currentTime = 0;
+            endTime = duration;
+            lastTimeScale = Time.timeScale;
+            lastFixedDeltaTime = Time.fixedDeltaTime;
             Time.timeScale *= slowPercentage;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
-            yield return new WaitForSecondsRealtime(duration);
-            gameManagerMaster.CallEventStopSlowTime();
+            isTimeSlower = true;
         }
     }
 }

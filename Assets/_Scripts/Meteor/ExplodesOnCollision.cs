@@ -30,6 +30,8 @@ namespace MeteorRain
         private string shieldTag = "Shield";
 
         private bool isCharging = false;
+        private bool isExploding = false;
+        private float currenTime;
 
         private void OnEnable()
         {
@@ -50,7 +52,7 @@ namespace MeteorRain
 
         private void OnCollide(Collision collision)
         {
-            if (!isCharging && !collision.collider.CompareTag(tag))
+            if (!isCharging && !isExploding && !collision.collider.CompareTag(tag))
             {
                 if (collision.collider.CompareTag(shieldTag))
                 {
@@ -60,14 +62,25 @@ namespace MeteorRain
 
                 isCharging = true;
                 tag = "MeteorCharging";
-                StartCoroutine(StartCharging());
             }
         }
 
-        private IEnumerator StartCharging()
+        private void Update()
         {
-            yield return new WaitForSeconds(chargingTime);
-            Explode(transform.position);
+            if (GameManagerMaster.Instance.IsGameRunning)
+            {
+                if (isCharging && !isExploding)
+                {
+                    currenTime += Time.unscaledDeltaTime;
+
+                    if (currenTime >= chargingTime)
+                    {
+                        isExploding = true;
+                        isCharging = false;
+                        Explode(transform.position);
+                    }
+                }
+            }
         }
 
         private void Explode(Vector3 explosionPoint)

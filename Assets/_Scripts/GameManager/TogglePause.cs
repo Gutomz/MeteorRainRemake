@@ -8,6 +8,8 @@ namespace MeteorRain
     {
         private GameManagerMaster gameManagerMaster;
 
+        private float lastTimeScale;
+
         private void OnEnable()
         {
             SetInitialReferences();
@@ -29,10 +31,11 @@ namespace MeteorRain
         {
             if (gameManagerMaster.IsGamePaused)
             {
+                lastTimeScale = Time.timeScale;
                 Time.timeScale = 0;
             } else
             {
-                Time.timeScale = 1;
+                Time.timeScale = lastTimeScale;
             }
         }
     }

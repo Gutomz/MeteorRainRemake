@@ -12,7 +12,7 @@ namespace MeteorRain
         private GameObject shield;
 
         private float currentShieldTime;
-        private float endShieldTime;
+        private float shieldDuration;
 
         private void OnEnable()
         {
@@ -38,21 +38,24 @@ namespace MeteorRain
 
         private void Update()
         {
-            if (shield.activeSelf)
+            if (GameManagerMaster.Instance.IsGameRunning)
             {
-                currentShieldTime += Time.deltaTime;
-
-                if (currentShieldTime >= endShieldTime)
+                if (shield.activeSelf)
                 {
-                    playerMaster.CallEventPlayerStopShield();
-                    RemoveShield();
+                    currentShieldTime += Time.unscaledDeltaTime;
+
+                    if (currentShieldTime >= shieldDuration)
+                    {
+                        playerMaster.CallEventPlayerStopShield();
+                        RemoveShield();
+                    }
                 }
             }
         }
 
         private void OnApplyShield(float duration)
         {
-            endShieldTime += duration;
+            shieldDuration += duration;
             shield.SetActive(true);
         }
 
@@ -60,7 +63,7 @@ namespace MeteorRain
         {
             shield.SetActive(false);
             currentShieldTime = 0;
-            endShieldTime = 0;
+            shieldDuration = 0;
         }
     }
 }

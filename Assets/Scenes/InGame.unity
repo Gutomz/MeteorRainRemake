@@ -5283,7 +5283,7 @@ MonoBehaviour:
   maxHealth: 100
   initialSpeed: 200
   minSpeed: 100
-  maxSpeed: 10000
+  maxSpeed: 5000
   slowSpeedScale: 15
   initialMana: 200
   minMana: 0
